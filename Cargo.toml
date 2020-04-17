@@ -1,0 +1,21 @@
+[package]
+name = "festive"
+version = "0.1.0"
+authors = ["Evan Simmons <esims89@gmail.com>"]
+edition = "2018"
+
+[lib]
+proc-macro = true
+
+[[test]]
+name = "pid"
+path = "tests/pid.rs"
+
+[dependencies]
+syn = {version = "1.0.17", features = ["full", "extra-traits"]}
+proc-macro2 = "1.0.10"
+quote = "1.0.3"
+rusty-fork = "0.2.2"
+
+[dev-dependencies]
+lazy_static = "1.4.0"
