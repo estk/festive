@@ -1,6 +1,6 @@
 # Festive
 
-[![docs](https://docs.rs/literally/badge.svg)](https://docs.rs/festive)
+[![docs](https://docs.rs/festive/badge.svg)](https://docs.rs/festive)
 [![crates.io](https://img.shields.io/crates/v/festive.svg)](https://crates.io/crates/festive)
 [![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/clippy.svg)](#license)
 ![CI](https://github.com/estk/festive/workflows/CI/badge.svg)
