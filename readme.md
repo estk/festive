@@ -8,6 +8,12 @@
 
 Festive is a celebration of the [`rusty_fork`](https://crates.io/crates/rusty-fork) crate. This provides an attribute `#[festive]` that will run a function as a test in a separate process. The `festive` attribute does exactly what the `rusty_fork_test` macro does to each containing function.
 
+## Todo:
+
+- [ ] Make rusty fork optional
+- [ ] Get rf_pid test working
+- [ ] Add failing test file for #should_panic
+
 ## Example
 
 ```rust

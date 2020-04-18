@@ -1,0 +1,20 @@
+[package]
+name = "festivities"
+version = "0.2.2"
+authors = ["Jason Lingle"]
+license = "MIT/Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/altsysrq/rusty-fork"
+documentation = "https://docs.rs/rusty-fork"
+edition = "2018"
+
+description = """
+Cross-platform library for running Rust tests in sub-processes using a
+fork-like interface.
+"""
+
+[dependencies]
+fnv = "1.0"
+quick-error = "1.2"
+process_control = "1.0.0"
+thiserror = "1.0.15"

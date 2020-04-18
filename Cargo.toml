@@ -10,12 +10,18 @@ edition = "2018"
 [lib]
 proc-macro = true
 
+# [[test]]
+# name = "rf_pid"
+# path = "tests/rf_pid.rs"
+# features = ["rusty-fork"]
+
 [[test]]
-name = "pid"
-path = "tests/pid.rs"
+name = "fest_pid"
+path = "tests/fest_pid.rs"
 
 [dependencies]
 syn = {version = "1.0.17", features = ["full", "extra-traits"]}
 proc-macro2 = "1.0.10"
 quote = "1.0.3"
-rusty-fork = "0.2.2"
+rusty-fork = {version = "0.2.2", optional = true}
+festivities = {path = "festivities", version = "*"}
