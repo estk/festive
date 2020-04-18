@@ -1,7 +1,8 @@
 [package]
 name = "festive"
-version = "0.1.0"
+version = "0.1.1"
 license = "MIT/Apache-2.0"
+repository = "https://github.com/estk/festive"
 authors = ["Evan Simmons <esims89@gmail.com>"]
 description = "Run your tests in isolation"
 edition = "2018"
@@ -18,6 +19,3 @@ syn = {version = "1.0.17", features = ["full", "extra-traits"]}
 proc-macro2 = "1.0.10"
 quote = "1.0.3"
 rusty-fork = "0.2.2"
-
-[dev-dependencies]
-lazy_static = "1.4.0"

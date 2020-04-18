@@ -38,7 +38,7 @@ pub fn festive(
             struct _Anon;
             let fork_id = rusty_fork::RustyForkId::of(::std::any::TypeId::of::<_Anon>());
 
-            // Convert the path for fork
+            // Convert the path for fork as in rusty_fork::fork_test::fix_module_path
             let path = format!("{}::{}", ::std::module_path!(), #fun_name);
             let path = path.find("::").map(|ix| &path[ix+2..]).unwrap_or(&path);
 
