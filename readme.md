@@ -4,7 +4,7 @@
 [![crates.io](https://img.shields.io/crates/v/festive.svg)](https://crates.io/crates/festive)
 [![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/clippy.svg)](#license)
 ![CI](https://github.com/estk/festive/workflows/CI/badge.svg)
-[![Minimum rustc version](https://img.shields.io/badge/rustc-1.38+-green.svg)](https://github.com/estk/festive#rust-version-requirements)
+[![Minimum rustc version](https://img.shields.io/badge/rustc-1.42+-green.svg)](https://github.com/estk/festive#rust-version-requirements)
 
 Festive is a celebration of the [`rusty_fork`](https://crates.io/crates/rusty-fork) crate. This provides an attribute `#[festive]` that will run a function as a test in a separate process. The `festive` attribute does exactly what the `rusty_fork_test` macro does to each containing function.
 
@@ -22,7 +22,7 @@ fn forked() {
 
 ## Rust Version Requirements
 
-1.38+
+1.42+
 
 ## License
 
