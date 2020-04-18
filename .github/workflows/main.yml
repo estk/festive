@@ -35,7 +35,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        rust_versions: ["stable", "1.38.0"]
+        rust_versions: ["stable"]
         os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout the source code
@@ -54,6 +54,6 @@ jobs:
           RUSTFLAGS: -D warnings
 
       - name: test lib
-        run: ./test.sh
+        run: bash ./test.sh
         env:
           RUSTFLAGS: -D warnings

@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+echo $pwd
 
 mkfifo pipe
 cargo test -- --nocapture > pipe &
