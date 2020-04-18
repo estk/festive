@@ -1,7 +1,9 @@
 [package]
 name = "festive"
 version = "0.1.0"
+license = "MIT/Apache-2.0"
 authors = ["Evan Simmons <esims89@gmail.com>"]
+description = "Run your tests in isolation"
 edition = "2018"
 
 [lib]
