@@ -1,3 +1,3 @@
 # Festivities
 
-This is a fork of rusty_fork, see the rusty_fork crate for credit.
+This is a stripped down rusty_fork meant to be easily auditable. Most of the business has been replaced with process_control.

@@ -9,9 +9,7 @@
 
 //! Internal module which parses and modifies the rust test command-line.
 
-use std::env;
-
-use crate::error::*;
+use crate::{Error, Result};
 
 /// How a hyphen-prefixed argument passed to the parent process should be
 /// handled when constructing the command-line for the child process.
@@ -57,55 +55,39 @@ static KNOWN_FLAGS: &[(&str, FlagType)] = &[
     ("-Z", FlagType::Pass(true)),
 ];
 
-fn look_up_flag_from_table(flag: &str) -> Option<FlagType> {
+/// Extra arguments to add after the stripped command line when running a
+/// single test.
+pub(crate) static RUN_TEST_ARGS: &[&str] = &[
+    // --quiet because the test runner output is redundant
+    "--quiet",
+    // Single threaded because we get parallelism from the parent process
+    "--test-threads",
+    "1",
+    // Disable capture since we want the output to be captured by the *parent*
+    // process.
+    "--nocapture",
+    // Match our test filter exactly so we run exactly one test
+    "--exact",
+    // Ensure everything else is interpreted as filters
+    "--",
+];
+
+fn look_up_flag(flag: &str) -> Option<&'static FlagType> {
     KNOWN_FLAGS
         .iter()
-        .cloned()
-        .filter(|&(name, _)| name == flag)
-        .map(|(_, typ)| typ)
+        .filter_map(|(name, typ)| if *name == flag { Some(typ) } else { None })
         .next()
-}
-
-pub(crate) fn env_var_for_flag(flag: &str) -> String {
-    let mut var = "RUSTY_FORK_FLAG_".to_owned();
-    var.push_str(
-        &flag
-            .trim_start_matches('-')
-            .to_uppercase()
-            .replace('-', "_"),
-    );
-    var
-}
-
-fn look_up_flag_from_env(flag: &str) -> Option<FlagType> {
-    env::var(&env_var_for_flag(flag))
-        .ok()
-        .map(|value| match &*value {
-            "pass" => FlagType::Pass(false),
-            "pass-arg" => FlagType::Pass(true),
-            "drop" => FlagType::Drop(false),
-            "drop-arg" => FlagType::Drop(true),
-            _ => FlagType::Error(
-                "incorrect flag type in environment; \
-                                  must be one of `pass`, `pass-arg`, \
-                                  `drop`, `drop-arg`",
-            ),
-        })
-}
-
-fn look_up_flag(flag: &str) -> Option<FlagType> {
-    look_up_flag_from_table(flag).or_else(|| look_up_flag_from_env(flag))
 }
 
 fn look_up_flag_or_err(flag: &str) -> Result<(bool, bool)> {
     match look_up_flag(flag) {
-        None => Err(Error::UnknownFlag(flag.to_owned())),
+        None => Err(Error::UnknownFlag(flag.to_string())),
         Some(FlagType::Error(message)) => Err(Error::DisallowedFlag {
-            flag: flag.to_owned(),
-            message: message.to_owned(),
+            flag: flag.to_string(),
+            message: message.to_string(),
         }),
-        Some(FlagType::Pass(has_arg)) => Ok((true, has_arg)),
-        Some(FlagType::Drop(has_arg)) => Ok((false, has_arg)),
+        Some(FlagType::Pass(has_arg)) => Ok((true, *has_arg)),
+        Some(FlagType::Drop(has_arg)) => Ok((false, *has_arg)),
     }
 }
 
@@ -201,23 +183,6 @@ pub(crate) fn strip_cmdline<A: Iterator<Item = String>>(args: A) -> Result<Vec<S
 
     Ok(ret)
 }
-
-/// Extra arguments to add after the stripped command line when running a
-/// single test.
-pub(crate) static RUN_TEST_ARGS: &[&str] = &[
-    // --quiet because the test runner output is redundant
-    "--quiet",
-    // Single threaded because we get parallelism from the parent process
-    "--test-threads",
-    "1",
-    // Disable capture since we want the output to be captured by the *parent*
-    // process.
-    "--nocapture",
-    // Match our test filter exactly so we run exactly one test
-    "--exact",
-    // Ensure everything else is interpreted as filters
-    "--",
-];
 
 #[cfg(test)]
 mod test {

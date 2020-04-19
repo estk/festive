@@ -5,17 +5,19 @@ use std::{
     time::Duration,
 };
 
-use crate::{cmdline, error::*};
 use process_control::{ChildExt, Timeout};
+
+use crate::{cmdline, Result};
 
 const OCCURS_ENV: &str = "RUSTY_FORK_OCCURS";
 const OCCURS_TERM_LENGTH: usize = 17; /* ':' plus 16 hexits */
+
 pub fn fork<ID, CHILD>(
     test_path: &str,
     fork_id: ID,
     timeout: Option<u64>,
     in_child: CHILD,
-) -> Result<()>
+) -> Result<process_control::Output>
 where
     ID: Hash,
     CHILD: FnOnce(),
@@ -35,7 +37,7 @@ where
     fork_impl(test_name, fork_id, timeout.unwrap_or(10), &mut || {
         in_child.take().unwrap()()
     })
-    .map(|_| ())
+    .map(|o| o.into())
 }
 
 fn fork_impl(
@@ -82,13 +84,6 @@ fn fork_impl(
             .wait()?
             .ok_or_else(|| io::Error::new(io::ErrorKind::TimedOut, "Process timed out"))?;
 
-        let stringout = format!(
-            "Festive stdout:: {}\nFestive stderr: {}",
-            String::from_utf8_lossy(&out.stdout),
-            String::from_utf8_lossy(&out.stderr)
-        );
-        assert!(out.status.success(), stringout);
-
         Ok(out)
     }
 }
@@ -98,4 +93,24 @@ fn id_str<ID: Hash>(id: ID) -> String {
     id.hash(&mut hasher);
 
     return format!(":{:016X}", hasher.finish());
+}
+
+#[macro_export]
+macro_rules! fork_id {
+    () => {{
+        struct _ForkId;
+        $crate::ForkId::of(::std::any::TypeId::of::<_ForkId>())
+    }};
+}
+
+/// The type of the value produced by
+/// [`rusty_fork_id!`](macro.rusty_fork_id.html).
+#[derive(Clone, Hash, PartialEq, Debug)]
+pub struct ForkId(::std::any::TypeId);
+impl ForkId {
+    #[allow(missing_docs)]
+    #[doc(hidden)]
+    pub fn of(id: ::std::any::TypeId) -> Self {
+        ForkId(id)
+    }
 }
