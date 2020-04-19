@@ -15,13 +15,13 @@ mod test {
         println!("Forked: My pid={}", process::id());
     }
 
-    #[festive(timeout_ms = 10)]
+    #[festive(timeout_ms = 50)]
     #[no_mangle]
     fn forked_timeout() {
         println!("Forked: My pid={}", process::id());
     }
 
-    #[festive(timeout_ms = 10)]
+    #[festive(timeout_ms = 50)]
     #[test]
     fn forked_timeout_double_test() {
         println!("Forked: My pid={}", process::id());
