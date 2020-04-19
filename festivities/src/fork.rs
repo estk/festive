@@ -45,6 +45,8 @@ fn fork_impl(
     in_child: &mut dyn FnMut(),
 ) -> Result<process_control::Output> {
     let mut occurs = env::var(OCCURS_ENV).unwrap_or_else(|_| String::new());
+
+    // Were in the targeted fork
     if occurs.contains(&fork_id) {
         match panic::catch_unwind(panic::AssertUnwindSafe(in_child)) {
             Ok(_) => process::exit(0),
