@@ -1,9 +1,9 @@
 [package]
 name = "festive"
-version = "0.1.1"
+version = "0.2.0"
 license = "MIT/Apache-2.0"
 repository = "https://github.com/estk/festive"
-authors = ["Evan Simmons <esims89@gmail.com>"]
+authors = ["Evan Simmons <esims89@gmail.com>", "Jason Lingle"]
 description = "Run your tests in isolation"
 edition = "2018"
 
