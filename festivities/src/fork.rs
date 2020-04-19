@@ -9,7 +9,7 @@ use process_control::{ChildExt, Timeout};
 
 use crate::{cmdline, Result};
 
-const OCCURS_ENV: &str = "RUSTY_FORK_OCCURS";
+const OCCURS_ENV: &str = "FESTIVE_FORK_OCCURS";
 const OCCURS_TERM_LENGTH: usize = 17; /* ':' plus 16 hexits */
 
 pub fn fork<ID, CHILD>(
@@ -22,7 +22,6 @@ where
     ID: Hash,
     CHILD: FnOnce(),
 {
-    // Convert the path for fork as in rusty_fork::fork_test::fix_module_path
     let test_name = test_path
         .find("::")
         .map(|ix| &test_path[ix + 2..])
@@ -59,7 +58,7 @@ fn fork_impl(
     } else {
         // Prevent misconfiguration creating a fork bomb
         if occurs.len() > 16 * OCCURS_TERM_LENGTH {
-            panic!("rusty-fork: Not forking due to >=16 levels of recursion");
+            panic!("festivities: Not forking due to >=16 levels of recursion");
         }
 
         occurs.push_str(&fork_id);
@@ -102,8 +101,6 @@ macro_rules! fork_id {
     }};
 }
 
-/// The type of the value produced by
-/// [`rusty_fork_id!`](macro.rusty_fork_id.html).
 #[derive(Clone, Hash, PartialEq, Debug)]
 pub struct ForkId(::std::any::TypeId);
 impl ForkId {
