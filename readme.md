@@ -6,12 +6,14 @@
 ![CI](https://github.com/estk/festive/workflows/CI/badge.svg)
 [![Minimum rustc version](https://img.shields.io/badge/rustc-1.42+-green.svg)](https://github.com/estk/festive#rust-version-requirements)
 
-Festive is a celebration of the [`rusty_fork`](https://crates.io/crates/rusty-fork) crate. This provides an attribute `#[festive]` that will run a function as a test in a separate process. The `festive` attribute does exactly what the `rusty_fork_test` macro does to each containing function.
+Festive is a celebration of the [`rusty_fork`](https://crates.io/crates/rusty-fork) crate. I have stripped down, modernized and proc_macroifyied our well loved `rusty_fork` crate as a learning experiment. What has come out on the other side is an extremely simple alternative where you may run your tests in an isolated process via the `#[festive]` attribute. No need to add the `#[test]` attr and if you would like a timeout just do something like the following: `#[festive(timeout_ms = 100)]`.
+
+## Quality
+
+If you want a crate that is battle hardened over the years, use `rusty_fork`. If you want something that has lots more tests use `rusty_fork`. If you want something that isnt a toy project use `rusty_fork`. If you want.... well you get the picture.
 
 ## Todo:
 
-- [ ] Make rusty fork optional
-- [ ] Get rf_pid test working
 - [ ] Add failing test file for #should_panic
 
 ## Example
@@ -39,7 +41,7 @@ Licensed under either of the following at your option.
 
 ### Credit
 
-Most of this is lifted from `rusty_fork` and we use rusty_fork as a dep too, so credit should be directed there.
+Most of this is lifted from `rusty_fork`, please direct any credit there.
 
 ## Contribution
 
