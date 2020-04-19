@@ -1,28 +1,21 @@
 use std::panic;
 
-use festivities::fork_id;
-use festivities::fork;
+use festivities::{fork, fork_id};
 
 #[test]
 fn fork_basically_works() {
-    let res = fork(
-        "tests::fork_basically_works",
-        fork_id!(),
-        None,
-        || println!("works")
-    )
+    let res = fork("tests::fork_basically_works", fork_id!(), None, || {
+        println!("works")
+    })
     .unwrap();
     assert!(res.status.success());
 }
 
 #[test]
 fn fork_passes_output() {
-    let res = fork(
-        "tests::fork_passes_output",
-        fork_id!(),
-        None,
-        || println!("works")
-    )
+    let res = fork("tests::fork_passes_output", fork_id!(), None, || {
+        println!("works")
+    })
     .unwrap();
     assert!(res.status.success());
 
@@ -31,12 +24,9 @@ fn fork_passes_output() {
 }
 #[test]
 fn fork_panic_works() {
-    let res = fork(
-        "tests::fork_panic_works",
-        fork_id!(),
-        None,
-        || panic!("panicmsg")
-    )
+    let res = fork("tests::fork_panic_works", fork_id!(), None, || {
+        panic!("panicmsg")
+    })
     .unwrap();
     assert!(!res.status.success());
     assert_eq!(70, res.status.code().unwrap());
