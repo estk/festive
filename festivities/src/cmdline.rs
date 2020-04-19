@@ -84,7 +84,7 @@ fn look_up_flag_or_err(flag: &str) -> Result<(bool, bool)> {
         None => Err(Error::UnknownFlag(flag.to_string())),
         Some(FlagType::Error(message)) => Err(Error::DisallowedFlag {
             flag: flag.to_string(),
-            message: message.to_string(),
+            message: (*message).to_string(),
         }),
         Some(FlagType::Pass(has_arg)) => Ok((true, *has_arg)),
         Some(FlagType::Drop(has_arg)) => Ok((false, *has_arg)),
@@ -142,7 +142,7 @@ pub(crate) fn strip_cmdline<A: Iterator<Item = String>>(args: A) -> Result<Vec<S
                     } else if has_arg {
                         state = State::DroppingArg;
                     }
-                } else if arg.starts_with("-") {
+                } else if arg.starts_with('-') {
                     let mut chars = arg.chars();
                     let mut to_pass = "-".to_owned();
 

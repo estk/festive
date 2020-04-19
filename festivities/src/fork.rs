@@ -37,7 +37,6 @@ where
     fork_impl(test_name, fork_id, timeout.unwrap_or(10), &mut || {
         in_child.take().unwrap()()
     })
-    .map(|o| o.into())
 }
 
 fn fork_impl(
