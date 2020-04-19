@@ -17,4 +17,4 @@ members = ["festivities"]
 syn = {version = "1.0.17", features = ["full", "extra-traits"]}
 proc-macro2 = "1.0.10"
 quote = "1.0.3"
-festivities = {path = "festivities", version = "*"}
+festivities = {path = "festivities", version = "0.2.0"}
