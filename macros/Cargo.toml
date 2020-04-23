@@ -1,6 +1,6 @@
 [package]
 name = "festive-macros"
-version = "0.2.1"
+version = "0.2.2"
 license = "MIT/Apache-2.0"
 repository = "https://github.com/estk/festive"
 authors = ["Evan Simmons <esims89@gmail.com>"]
