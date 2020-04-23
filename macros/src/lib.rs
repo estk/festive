@@ -29,11 +29,11 @@ pub fn festive(
             fn inner() #block
 
             struct _Anon;
-            let fork_id = ::festivities::ForkId::of(::std::any::TypeId::of::<_Anon>());
+            let fork_id = ::festive::ForkId::of(::std::any::TypeId::of::<_Anon>());
 
             let path = format!("{}::{}", ::std::module_path!(), #fun_name);
 
-            let res = ::festivities::fork(
+            let res = ::festive::fork(
                 &path,
                 fork_id,
                 #timeout,

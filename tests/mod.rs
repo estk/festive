@@ -1,6 +1,6 @@
 use std::panic;
 
-use festivities::{fork, fork_id};
+use festive::{fork, fork_id};
 
 #[test]
 fn fork_basically_works() {
