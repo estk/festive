@@ -10,10 +10,10 @@ description = "Run your tests in isolation"
 edition = "2018"
 
 [workspace]
-members = ["festive"]
+members = ["macros"]
 
 [dependencies]
 fnv = "1.0"
 process_control = "1.0.0"
 thiserror = "1.0.15"
-festive-macros = "0.2.1"
+festive-macros = { path = "./macros", version = "0.2.1" }
