@@ -1,72 +1,26 @@
-use quote::quote;
-use syn::{
-    parse_macro_input, parse_quote, AttributeArgs, ItemFn, Lit, Meta, MetaNameValue, NestedMeta,
-    Path,
-};
+#![deny(unsafe_code)]
 
-#[proc_macro_attribute]
-pub fn festive(
-    args: proc_macro::TokenStream,
-    input: proc_macro::TokenStream,
-) -> proc_macro::TokenStream {
-    let args = parse_macro_input!(args as AttributeArgs);
-    let timeout: syn::Expr = syn::parse_str(&format!("{:?}", parse_args(&args))).unwrap();
+pub use festive_macros::*;
 
-    let ItemFn {
-        attrs,
-        vis,
-        sig,
-        block,
-    } = parse_macro_input!(input as ItemFn);
-    let fun_name = sig.ident.to_string();
+use std::io;
+use thiserror::Error;
 
-    (quote! {
-        #(
-            #attrs
-        )*
-        #[test]
-        #vis #sig {
-            fn inner() #block
+mod cmdline;
+#[macro_use]
+mod fork;
 
-            struct _Anon;
-            let fork_id = ::festivities::ForkId::of(::std::any::TypeId::of::<_Anon>());
+pub use fork::{fork, ForkId};
 
-            let path = format!("{}::{}", ::std::module_path!(), #fun_name);
+pub type Result<T> = ::std::result::Result<T, Error>;
 
-            let res = ::festivities::fork(
-                &path,
-                fork_id,
-                #timeout,
-                inner,
-            ).expect("forking test failed");
+#[derive(Debug, Error)]
+pub enum Error {
+    #[error("Unexpected flag '{0}' in 'festivities' test process argument list.")]
+    UnknownFlag(String),
 
-            let stringout = format!(
-                "Child stdout:: {}\nChild stderr: {}",
-                String::from_utf8_lossy(&res.stdout),
-                String::from_utf8_lossy(&res.stderr)
-            );
+    #[error("Illegal flag '{flag}' was passed to the test process. Reason: {message}")]
+    DisallowedFlag { flag: String, message: String },
 
-            assert!(res.status.success(), stringout);
-        }
-    })
-    .into()
-}
-
-fn parse_args(args: &[NestedMeta]) -> Option<u64> {
-    let timeout_path: Path = parse_quote!(timeout_ms);
-    for a in args {
-        match a {
-            NestedMeta::Meta(Meta::NameValue(MetaNameValue { path, lit, .. }))
-                if path == &timeout_path =>
-            {
-                if let Lit::Int(li) = lit {
-                    return li.base10_parse().ok();
-                } else {
-                    panic!("timeout_ms should have an int value")
-                }
-            }
-            _ => {}
-        }
-    }
-    None
+    #[error("Spawn failed: {0}")]
+    SpawnError(#[from] io::Error),
 }

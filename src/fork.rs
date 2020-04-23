@@ -10,7 +10,7 @@ use process_control::{ChildExt, Timeout};
 use crate::{cmdline, Result};
 
 const OCCURS_ENV: &str = "FESTIVE_FORK_OCCURS";
-const OCCURS_TERM_LENGTH: usize = 17; /* ':' plus 16 hexits */
+const OCCURS_TERM_LENGTH: usize = 19; /* ':' plus 16 hexits */
 
 pub fn fork<ID, CHILD>(
     test_path: &str,
@@ -33,7 +33,7 @@ where
     // every single test
     let mut in_child = Some(in_child);
 
-    fork_impl(test_name, fork_id, timeout.unwrap_or(10), &mut || {
+    fork_impl(test_name, fork_id, timeout.unwrap_or(100), &mut || {
         in_child.take().unwrap()()
     })
 }

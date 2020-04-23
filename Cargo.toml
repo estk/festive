@@ -1,20 +1,19 @@
 [package]
 name = "festive"
 version = "0.2.1"
-license = "MIT/Apache-2.0"
-repository = "https://github.com/estk/festive"
 authors = ["Evan Simmons <esims89@gmail.com>", "Jason Lingle"]
+license = "MIT/Apache-2.0"
+readme = "readme.md"
+repository = "https://github.com/estk/festive"
+documentation = "https://docs.rs/festive"
 description = "Run your tests in isolation"
 edition = "2018"
 
-[lib]
-proc-macro = true
-
 [workspace]
-members = ["festivities"]
+members = ["festive"]
 
 [dependencies]
-syn = {version = "1.0.17", features = ["full", "extra-traits"]}
-proc-macro2 = "1.0.10"
-quote = "1.0.3"
-festivities = {path = "festivities", version = "0.2.0"}
+fnv = "1.0"
+process_control = "1.0.0"
+thiserror = "1.0.15"
+festive-macros = "0.2.1"
